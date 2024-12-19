@@ -1,0 +1,10 @@
+[package]
+name = "pw"
+edition = "2021"
+license = "MIT"
+authors = ["Luca Schnellmann <oss@lusc.ch>"]
+rust-version = "1.83.0"
+publish = false
+
+[dependencies]
+rand = "0.8.5"
