@@ -11,10 +11,9 @@ const UPPERCASE: &'static str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const NUMBER: &'static str = "0123456789";
 const SPECIAL: &'static str = "~!@#$%^&*()_-+=:;<,>.?/";
 
-// Assume all strings are non-empty (because they are!)
-fn random_str<S: AsRef<str>>(str: S, rng: &mut ThreadRng) -> char {
-    let str_ref = str.as_ref();
-    str_ref.chars().choose(rng).unwrap()
+fn random_str(str: &str, rng: &mut ThreadRng) -> char {
+    // We know all inputs will be non-empty
+    str.chars().choose(rng).unwrap()
 }
 
 pub fn generate_password(config: Config) -> String {
