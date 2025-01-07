@@ -10,7 +10,8 @@ pub struct Config {
 
 fn print_help() {
     println!(
-        "
+        "    pw [options] [length]
+
     Options:
         -u          Include _U_ppercase characters.
         -l          Include _L_owercase characters.
@@ -26,7 +27,7 @@ fn print_help() {
     Examples:
 
         pw
-        pw -u -l 18
+        pw -ul 18
         pw -s 25
         pw -ul
 "
