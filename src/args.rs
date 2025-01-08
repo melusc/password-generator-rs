@@ -30,6 +30,8 @@ fn print_help() {
         pw -ul 18
         pw -s 25
         pw -ul
+
+    MIT (c) Luca Schnellmann, 2025
 "
     );
 
