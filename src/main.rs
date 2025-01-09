@@ -1,10 +1,9 @@
 use std::process;
 
-use pw::args::parse_args;
-use pw::generate::generate_password;
+use pw::{args, generate};
 
 fn main() {
-    let config = match parse_args() {
+    let config = match args::parse_args() {
         Ok(config) => config,
         Err(error) => {
             eprintln!("{error}");
@@ -12,6 +11,6 @@ fn main() {
         }
     };
 
-    let password = generate_password(config);
+    let password = generate::generate_password(config);
     println!("{password}");
 }
