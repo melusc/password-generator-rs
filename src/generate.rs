@@ -22,7 +22,7 @@ pub fn generate_password(config: Config) -> String {
     // Allocate for default password length 32
     let mut password = Vec::with_capacity(32);
 
-    let mut rng = rand::thread_rng();
+    let mut rng = rand::rng();
 
     if config.special {
         all_chars.push_str(SPECIAL);
