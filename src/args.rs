@@ -1,10 +1,17 @@
 use std::{process, u16};
 
 #[derive(Debug, PartialEq)]
+pub enum SpecialType {
+    None,
+    Basic,
+    Full,
+}
+
+#[derive(Debug, PartialEq)]
 pub struct Config {
     pub lower: bool,
     pub upper: bool,
-    pub special: bool,
+    pub special: SpecialType,
     pub number: bool,
     pub length: u16,
 }
@@ -18,6 +25,8 @@ fn print_help() {
         -l          Include _L_owercase characters.
         -n          Include _N_umeric characters.
         -s          Include _S_pecial characters.
+        -b          Only use basic special characters.
+                    Implies -s
         -h, --help  Display help-text
 
     Notes:
@@ -31,6 +40,7 @@ fn print_help() {
         pw -ul 18
         pw -s 25
         pw -ul
+        pw -buln
 
     MIT (c) Luca Schnellmann, 2025
 "
@@ -43,7 +53,7 @@ pub fn parse_args(args: impl Iterator<Item = String>) -> Result<Config, String> 
     let mut lower = false;
     let mut upper = false;
     let mut number = false;
-    let mut special = false;
+    let mut special: SpecialType = SpecialType::None;
 
     let mut length: u16 = 32;
 
@@ -56,7 +66,14 @@ pub fn parse_args(args: impl Iterator<Item = String>) -> Result<Config, String> 
                         'l' => lower = true,
                         'u' => upper = true,
                         'n' => number = true,
-                        's' => special = true,
+                        's' => {
+                            if special == SpecialType::None {
+                                special = SpecialType::Full;
+                            }
+                        }
+                        'b' => {
+                            special = SpecialType::Basic;
+                        }
                         'h' => print_help(),
                         _ => return Err(format!("Invalid flag -{flag}")),
                     }
@@ -72,8 +89,8 @@ pub fn parse_args(args: impl Iterator<Item = String>) -> Result<Config, String> 
 
     // No charset is enabled, so -ln would only enable lower and number
     // If none are requested though, default to enabling all
-    if !special && !lower && !upper && !number {
-        (special, lower, upper, number) = (true, true, true, true);
+    if special == SpecialType::None && !lower && !upper && !number {
+        (special, lower, upper, number) = (SpecialType::Full, true, true, true);
     }
 
     Ok(Config {
@@ -101,7 +118,7 @@ mod test_parse_args {
                 lower: true,
                 upper: true,
                 number: true,
-                special: true,
+                special: SpecialType::Full,
             }
         )
     }
@@ -116,7 +133,7 @@ mod test_parse_args {
                 lower: true,
                 upper: true,
                 number: true,
-                special: true,
+                special: SpecialType::Full,
             }
         )
     }
@@ -132,7 +149,7 @@ mod test_parse_args {
                 lower: true,
                 upper: true,
                 number: false,
-                special: false,
+                special: SpecialType::None,
             }
         )
     }
@@ -147,7 +164,7 @@ mod test_parse_args {
                 lower: true,
                 upper: false,
                 number: true,
-                special: false,
+                special: SpecialType::None,
             }
         )
     }
@@ -165,7 +182,22 @@ mod test_parse_args {
                 lower: true,
                 upper: true,
                 number: false,
-                special: true,
+                special: SpecialType::Full,
+            }
+        )
+    }
+
+    #[test]
+    fn special_basic() {
+        let config = parse_args(vec![String::from("-bu")].into_iter()).unwrap();
+        assert_eq!(
+            config,
+            Config {
+                length: 32,
+                upper: true,
+                lower: false,
+                number: false,
+                special: SpecialType::Basic,
             }
         )
     }
