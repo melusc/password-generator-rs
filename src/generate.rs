@@ -12,7 +12,7 @@ const LOWERCASE: &'static str = "abcdefghijklmnopqrstuvwxyz";
 const UPPERCASE: &'static str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const NUMBER: &'static str = "0123456789";
 const SPECIAL: &'static str = "~!@#$%^&*()_-+=:;<,>.?/";
-const SPECIAL_BASIC: &'static str = "$.-_,?!+:/";
+const SPECIAL_BASIC: &'static str = "$.-,?!+:/";
 
 fn random_str(str: &str, rng: &mut ThreadRng) -> char {
     // We know all inputs will be non-empty
