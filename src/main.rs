@@ -15,7 +15,7 @@ fn main() {
     let password = generate::generate_password(&config);
 
     match password {
-        Ok(password) => println!("{password}"),
+        Ok(password) => print!("{password}"),
         Err(error_message) => {
             eprintln!("{error_message}");
             process::exit(1);
