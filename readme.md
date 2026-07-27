@@ -30,4 +30,10 @@ The binary will be available as `pw`.
 
 ## License
 
-This project is licensed under the MIT license. See `./license`.
+Licensed under the GNU General Public License,
+version 3 or (at your option) any later version:
+([COPYING](COPYING) or <https://www.gnu.org/licenses/gpl-3.0.html>)
+
+## Contribution
+
+Thanks for your interest. This repository does not accept contributions.
